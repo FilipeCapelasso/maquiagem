@@ -1489,7 +1489,7 @@ function consultaModal() {
 /* ---------- efeitos ---------- */
 function revelar() {
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); contar(e.target); } }), { threshold: .12 });
-  $$('.reveal:not(.on)').forEach(e => io.observe(e));
+  $$('.reveal:not(.on)').forEach(e => { if (e.classList.contains('ph')) { const w = e.parentElement; new IntersectionObserver((es, o) => { if (es.some(x => x.isIntersecting)) { e.classList.add('on'); o.disconnect(); } }, { threshold: .15 }).observe(w); } else io.observe(e); });
 }
 function contar(root) {
   $$('[data-count]', root).forEach(e => { if (e.dataset.done) return; e.dataset.done = 1; const alvo = +e.dataset.count, t0 = performance.now(), dur = 1600;
