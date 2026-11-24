@@ -562,7 +562,7 @@ body.adm #admin{display:block}
 .cur-dot{width:6px;height:6px;background:var(--a)}
 .cur-ring{width:38px;height:38px;border:1px solid var(--a);transition:width .35s,height .35s,background .35s,border-color .35s}
 .cur-ring.hov{width:68px;height:68px;background:rgba(183,110,121,.12);border-color:transparent}
-@media(hover:none),(max-width:900px){.cur-dot,.cur-ring{display:none}}
+.cur-dot,.cur-ring{display:none!important}
 .shine,.tit em,.hero h1 .script{background:linear-gradient(110deg,var(--a) 20%,var(--gold) 38%,#f3d9c8 46%,var(--a) 60%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 7s linear infinite}
 .port .tit em,.contact .tit em{background-image:linear-gradient(110deg,var(--a2) 20%,#fff 42%,var(--a2) 60%)}
 .hero h1 .wd{display:inline-block;white-space:nowrap}
@@ -1109,7 +1109,7 @@ function efeitosVitrine() {
   tick();
   $('#toTop').onclick = () => scrollTo({ top: 0, behavior: 'smooth' });
   if (!fino) return;
-  const d = document.createElement('div'), r = document.createElement('div'); d.className = 'cur-dot'; r.className = 'cur-ring'; $('#site').append(d, r);
+  const d = document.createElement('div'), r = document.createElement('div'); /* cursor customizado removido */
   let mx = -100, my = -100, rx = -100, ry = -100, mag = null;
   addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY; d.style.transform = `translate(${mx - 3}px,${my - 3}px)`;
