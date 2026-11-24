@@ -851,6 +851,14 @@ body{position:relative;width:100%}
   .ld-ring{animation:none}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* v8: anel e texto da abertura proporcionais à tela */
+#loader{--D:min(92vw,80vh,760px)}
+.ld-glow{width:calc(var(--D)*1.5);height:calc(var(--D)*1.5);margin:calc(var(--D)*-.75) 0 0 calc(var(--D)*-.75)}
+.ld-ring{width:var(--D);height:var(--D);margin:calc(var(--D)*-.5) 0 0 calc(var(--D)*-.5)}
+.ld-in{width:calc(var(--D)*.86);max-width:none;padding:0}
+#loader .lg{font-size:clamp(24px,calc(var(--D)*.1),96px);white-space:nowrap;text-shadow:0 0 24px rgba(232,196,184,.3)}
+.ld-sl{font-size:clamp(1rem,calc(var(--D)*.036),1.6rem)}
 </style>
 </head>
 <body>
@@ -866,6 +874,10 @@ body{position:relative;width:100%}
     L.querySelector('.lg').innerHTML=h;
     var fim=i0+cs.length*passo+.45; L.style.setProperty('--fim',fim+'s');
     L.querySelector('.ld-sl').textContent=slogan||''; L.classList.add('go');
+    var lg=L.querySelector('.lg');
+    function ajusta(){var D=Math.min(innerWidth*.92,innerHeight*.8,760),alvo=D*.74;lg.style.fontSize='100px';lg.style.whiteSpace='nowrap';var w=lg.scrollWidth||1;lg.style.fontSize=Math.max(24,Math.min(100*alvo/w,D*.16,96)).toFixed(1)+'px'}
+    ajusta(); window.addEventListener('resize',ajusta);
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(ajusta);
     window.__ldFim=performance.now()+(fim+(slogan?1.9:1.1))*1000;
   };
   try{var c=JSON.parse(localStorage.getItem('mq_ld')||'null');if(c&&c.n)window.__ldPintar(c.n,c.s)}catch(e){}
