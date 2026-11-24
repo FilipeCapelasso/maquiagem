@@ -785,10 +785,33 @@ footer{color:rgba(255,255,255,.8)}
 html{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M4 2l17 10-7.5 2L10 22z' fill='%233A1F2B' stroke='%23fff' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") 4 2,auto}
 a,button,.btn,[role=button],label,select,summary{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%23B76E79' stroke='%23fff' stroke-width='3'/%3E%3C/svg%3E") 16 16,pointer}
 input,textarea{cursor:text}
+
+/* v5: abertura e sobre sem foto */
+.about .wrap.nofoto{grid-template-columns:1fr;max-width:780px;text-align:center}
+.about .wrap.nofoto .ph{display:none}
+.about .wrap.nofoto .eyebrow{justify-content:center}
+.about .wrap.nofoto .sub{margin-left:auto;margin-right:auto}
+.about .wrap.nofoto .nums{justify-content:center}
+.about .wrap.nofoto .flour{margin-left:auto;margin-right:auto;display:block}
+body:not(.pronto) .hero h1 .ch,body:not(.pronto) .hero .reveal{animation-play-state:paused}
+#loader{overflow:hidden;background:radial-gradient(900px 600px at 50% 45%,#5a2d3c,var(--deep) 70%)}
+#loader .bar{display:none}
+.ld-glow{position:absolute;left:50%;top:50%;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;background:radial-gradient(circle,rgba(232,196,184,.22),transparent 65%);animation:breathe 4s ease-in-out infinite}
+.ld-ring{position:absolute;left:50%;top:50%;width:380px;height:380px;margin:-190px 0 0 -190px;border-radius:50%;border:1px dashed rgba(232,196,184,.28);animation:rot 30s linear infinite}
+.ld-in{position:relative;text-align:center;padding:0 20px;max-width:100vw}
+.ld-orn{color:var(--gold);font-size:1.5rem;animation:ldOrn 1.4s cubic-bezier(.2,.8,.2,1) both;margin-bottom:6px}
+@keyframes ldOrn{from{opacity:0;transform:scale(.2) rotate(-180deg)}}
+#loader .lg{font-size:clamp(2.1rem,8.6vw,4.6rem);line-height:1.25;color:#fff;text-shadow:0 0 30px rgba(232,196,184,.35)}
+#loader .lg .ch{opacity:0;transform:translateY(40%);filter:blur(10px);animation:ldIn 1s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes ldIn{to{opacity:1;transform:none;filter:blur(0)}}
+.ld-line{height:1px;width:0;margin:14px auto 12px;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:ldLine 1.2s ease forwards;animation-delay:var(--fim,2.6s)}
+@keyframes ldLine{to{width:min(240px,60vw)}}
+.ld-sl{font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,3.6vw,1.45rem);color:var(--a2);opacity:0;animation:ldSl 1.1s ease forwards;animation-delay:calc(var(--fim,2.6s) + .2s)}
+@keyframes ldSl{from{opacity:0;transform:translateY(8px);letter-spacing:.2em}to{opacity:1;transform:none;letter-spacing:.02em}}
 </style>
 </head>
 <body>
-<div id="loader"><div><div class="lg">Make</div><div class="bar"></div></div></div>
+<div id="loader"><div class="ld-glow"></div><div class="ld-ring"></div><div class="ld-in"><div class="ld-orn">✦</div><div class="lg">Make</div><div class="ld-line"></div><div class="ld-sl"></div></div></div>
 <div class="toasts" id="toasts"></div>
 
 <!-- =================== VITRINE =================== -->
@@ -853,8 +876,8 @@ input,textarea{cursor:text}
   <div class="strips"><div class="strip s1"><div class="tr" id="strip"></div></div><div class="strip s2" aria-hidden="true"><div class="tr" id="strip2"></div></div></div>
 
   <section class="about" id="sobre">
-    <div class="wrap">
-      <div class="ph reveal" id="aboutPh"><div class="mono" data-f="inicial">M</div></div>
+    <div class="wrap nofoto">
+      <div class="ph reveal" id="aboutPh"></div>
       <div>
         <span class="eyebrow reveal">Prazer, sou eu</span>
         <h2 class="tit reveal d1">A arte de <em>realçar</em><br>a sua beleza</h2>
@@ -1120,13 +1143,14 @@ async function iniciarVitrine() {
   $$('[data-f="slogan"]').forEach(e => e.textContent = c.slogan || '');
   $$('[data-f="sobre"]').forEach(e => e.textContent = c.sobre || '');
   $$('[data-f="maquiadora"]').forEach(e => e.textContent = c.maquiadora || '');
-  $('#loader .lg').innerHTML = letras(c.nome).map((ch, i) => `<span class="ch" style="animation-delay:${i * .05}s">${ch === ' ' ? '&nbsp;' : esc(ch)}</span>`).join('');
+  $('#loader .lg').innerHTML = letras(c.nome).map((ch, i) => `<span class="ch" style="animation-delay:${(.5 + i * .075).toFixed(2)}s">${ch === ' ' ? '&nbsp;' : esc(ch)}</span>`).join('');
+  const fimLetras = .5 + letras(c.nome).length * .075 + 1; $('#loader').style.setProperty('--fim', fimLetras + 's'); $('#loader .ld-sl').textContent = c.slogan || '';
+  window.__ldMs = (fimLetras + 1.9) * 1000;
   splitHero(); $$('h2.tit').forEach(splitWords);
   $('#ano').textContent = new Date().getFullYear();
   pintarStrip(); pintarNums(); pintarServicos(); pintarSemana(); pintarCursos(); pintarDepoimentos(); pintarContato(); pintarFaq(); pintarPortfolio();
   bkIniciar();
-  setTimeout(() => $('#loader').classList.add('out'), 700);
-  revelar();
+  setTimeout(() => { $('#loader').classList.add('out'); document.body.classList.add('pronto'); revelar(); window.__abrirEnv && window.__abrirEnv(); }, Math.max(300, window.__ldMs - performance.now()));
   proximoHorario();
   rpc('mq_vitrine_fotos').then(f => { V.fotos = f; pintarFotos(); }).catch(() => {});
 }
@@ -1171,7 +1195,7 @@ function efeitosVitrine() {
     const alterna = () => { if (env.classList.contains('open')) { env.classList.remove('open'); setTimeout(abre, 2400); } else abre(); };
     const st = $('#stage'); let feito = false, pronto = false, vis = false;
     const tenta = () => { if (!feito && pronto && vis) { feito = true; abre(); } };
-    setTimeout(() => { pronto = true; tenta(); }, 2500);
+    window.__abrirEnv = () => setTimeout(() => { pronto = true; tenta(); }, 900);
     new IntersectionObserver(es => { vis = es[0].intersectionRatio >= .92; tenta(); }, { threshold: [0, .5, .92, 1] }).observe(st);
     env.addEventListener('click', e => { if (e.target.closest('.ec-btn')) return; alterna(); });
     env.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); alterna(); } });
@@ -1299,7 +1323,7 @@ function pintarPortfolio() {
 function pintarFotos() {
   const f = V.fotos; if (!f) return;
   if (f.hero) $('#heroArch').innerHTML = `<img src="${f.hero}" alt="Maquiagem">`;
-  if (f.sobre) $('#aboutPh').innerHTML = `<img src="${f.sobre}" alt="Maquiadora">`;
+  if (f.sobre) { $('#aboutPh').innerHTML = `<img src="${f.sobre}" alt="Maquiadora">`; $('#aboutPh').closest('.wrap').classList.remove('nofoto'); }
   $$('[data-cfoto]').forEach(e => { const s = f.cursos[e.dataset.cfoto]; if (s) { const hb = $('.hb', e); e.innerHTML = `<img src="${s}" alt="" loading="lazy">`; if (hb) e.appendChild(hb); } });
   $$('[data-dfoto]').forEach(e => { const s = f.depoimentos[e.dataset.dfoto]; if (s) e.innerHTML = `<img src="${s}" alt="">`; });
   const p = f.portfolio;
