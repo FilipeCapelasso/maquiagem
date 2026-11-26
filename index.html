@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<title>Studio de Maquiagem · Agende seu horário</title>
+<title>By Anne · Maquiadora · Agende seu horário</title>
 <meta name="description" content="Maquiagem profissional: básica, completa e noivas. Veja os horários livres e agende online.">
 <meta name="theme-color" content="#2B1B21">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -890,7 +890,7 @@ body{position:relative;width:100%}
   <div id="prog"></div>
   <nav class="nav" id="nav">
     <div class="wrap">
-      <a href="#topo" class="logo" data-f="nome">Studio Make</a>
+      <a href="#topo" class="logo" data-f="nome">By Anne</a>
       <div class="nav-l">
         <a href="#sobre">Sobre</a><a href="#servicos">Serviços</a><a href="#portfolio">Trabalhos</a><a href="#cursos" data-show="cursos">Formação</a><a href="#contato">Contato</a>
       </div>
@@ -909,7 +909,7 @@ body{position:relative;width:100%}
     <div class="wrap">
       <div>
         <span class="eyebrow reveal">Você está convidada</span>
-        <h1 class="reveal d1"><span class="script">para brilhar</span><span data-f="nome">Studio Make</span></h1>
+        <h1 class="reveal d1"><span class="script">para brilhar</span><span data-f="nome">By Anne</span></h1>
         <p class="lead reveal d2" data-f="slogan">Beleza que revela quem você é</p>
         <div class="acts reveal d3">
           <a href="#agendar" class="btn btn-p">Reservar meu horário <span>→</span></a>
@@ -1087,7 +1087,7 @@ body{position:relative;width:100%}
 
   <footer>
     <div class="wrap">
-      <div><span class="logo" data-f="nome">Studio Make</span></div>
+      <div><span class="logo" data-f="nome">By Anne</span></div>
       <div>© <span id="ano"></span> · <span data-f="nome"></span> · Agendamento online</div>
       <a href="#/admin" style="opacity:.6">Área da gerência</a>
     </div>
@@ -2210,7 +2210,7 @@ function vAjustes() {
   maskWa($('#jW')); let tema = c.tema;
   $$('#jT button').forEach(b => b.onclick = () => { tema = b.dataset.t; document.documentElement.dataset.tema = tema; $$('#jT button').forEach(x => x.classList.toggle('sel', x === b)); });
   $('#jSalvar').onclick = async () => {
-    const d = { nome: $('#jN').value.trim() || 'Studio Make', maquiadora: $('#jMq').value, slogan: $('#jSl').value, sobre: $('#jSo').value, whatsapp: $('#jW').value, instagram: $('#jI').value.trim(), endereco: $('#jE').value, cidade: $('#jC').value, mapa_url: $('#jMa').value.trim(), politica: $('#jP').value, tema, anos_experiencia: +$('#jAn').value || 0, clientes_base: +$('#jCb').value || 0, fuso: $('#jF').value };
+    const d = { nome: $('#jN').value.trim() || 'By Anne', maquiadora: $('#jMq').value, slogan: $('#jSl').value, sobre: $('#jSo').value, whatsapp: $('#jW').value, instagram: $('#jI').value.trim(), endereco: $('#jE').value, cidade: $('#jC').value, mapa_url: $('#jMa').value.trim(), politica: $('#jP').value, tema, anos_experiencia: +$('#jAn').value || 0, clientes_base: +$('#jCb').value || 0, fuso: $('#jF').value };
     try { await arpc('mq_admin_salvar', { p_tipo: 'config', d }); toast('Ajustes salvos! O site já está atualizado.', 'ok'); await carregarPainel(); montarShell(); irPara('ajustes'); } catch (e) { toast(e.message, 'err'); }
   };
   $('#jSenha').onclick = async () => { try { A.token = await arpc('mq_admin_trocar_senha', { p_atual: $('#jS1').value, p_nova: $('#jS2').value }); store.set('tk', A.token); toast('Senha trocada.', 'ok'); $('#jS1').value = $('#jS2').value = ''; } catch (e) { toast(e.message, 'err'); } };
