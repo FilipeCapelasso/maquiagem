@@ -8,7 +8,13 @@
 <meta name="theme-color" content="#2B1B21">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500;600&family=Pinyon+Script&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500;600&family=Pinyon+Script&display=swap"></noscript>
+<link rel="preconnect" href="https://qrmwgqkiwoenlkfzjazs.supabase.co" crossorigin>
+<script>
+window.__pre={};(function(){var U='https://qrmwgqkiwoenlkfzjazs.supabase.co/rest/v1/rpc/',K='sb_publishable_9_rTuVsidpeLgh7xGo1Azg_KaeyGWs5';
+['mq_vitrine','mq_vitrine_fotos'].forEach(function(f){try{window.__pre[f]=fetch(U+f,{method:'POST',headers:{apikey:K,'Content-Type':'application/json'},body:'{}'}).then(function(r){return r.text().then(function(t){return{ok:r.ok,t:t}})})}catch(e){}})})();
+</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23B76E79'/%3E%3Ctext x='32' y='43' font-size='30' text-anchor='middle' fill='white' font-family='Georgia'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
 <style>
 /* ============================================================
@@ -859,6 +865,17 @@ body{position:relative;width:100%}
 .ld-in{width:calc(var(--D)*.86);max-width:none;padding:0}
 #loader .lg{font-size:clamp(24px,calc(var(--D)*.1),96px);white-space:nowrap;text-shadow:0 0 24px rgba(232,196,184,.3)}
 .ld-sl{font-size:clamp(1rem,calc(var(--D)*.036),1.6rem)}
+
+/* v9: desempenho */
+.pausa,.pausa *,.pausa *:before,.pausa *:after{animation-play-state:paused!important}
+.hero{contain:layout paint}
+.serv,.course,.ptile,.panel{contain:layout style}
+img{content-visibility:auto}
+@media(max-width:900px){
+  :root{--sh:0 12px 28px -16px rgba(58,31,43,.3);--sh2:0 5px 14px -8px rgba(58,31,43,.22)}
+  .halo:before{animation:none}
+  .strip .tr{animation-duration:40s}
+}
 </style>
 </head>
 <body>
@@ -869,7 +886,7 @@ body{position:relative;width:100%}
   function chars(t){return Array.from((t||'').normalize('NFC'))}
   window.__ldPintar=function(nome,slogan){
     if(L.dataset.ok)return; L.dataset.ok=1;
-    var cs=chars(nome),passo=Math.min(.045,1.1/Math.max(cs.length,1)),i0=.15,h='';
+    var cs=chars(nome),passo=Math.min(.04,.8/Math.max(cs.length,1)),i0=.1,h='';
     cs.forEach(function(c,i){h+='<span class="ch" style="animation-delay:'+(i0+i*passo).toFixed(3)+'s">'+(c===' '?'&nbsp;':c.replace(/[<&>]/g,''))+'</span>'});
     L.querySelector('.lg').innerHTML=h;
     var fim=i0+cs.length*passo+.45; L.style.setProperty('--fim',fim+'s');
@@ -878,7 +895,7 @@ body{position:relative;width:100%}
     function ajusta(){var D=Math.min(innerWidth*.92,innerHeight*.8,760),alvo=D*.74;lg.style.fontSize='100px';lg.style.whiteSpace='nowrap';var w=lg.scrollWidth||1;lg.style.fontSize=Math.max(24,Math.min(100*alvo/w,D*.16,96)).toFixed(1)+'px'}
     ajusta(); window.addEventListener('resize',ajusta);
     if(document.fonts&&document.fonts.ready)document.fonts.ready.then(ajusta);
-    window.__ldFim=performance.now()+(fim+(slogan?1.9:1.1))*1000;
+    window.__ldFim=performance.now()+(fim+(slogan?1.7:.9))*1000;
   };
   try{var c=JSON.parse(localStorage.getItem('mq_ld')||'null');if(c&&c.n)window.__ldPintar(c.n,c.s)}catch(e){}
 })();
@@ -1108,6 +1125,11 @@ body{position:relative;width:100%}
 const SB_URL = 'https://qrmwgqkiwoenlkfzjazs.supabase.co';
 const SB_KEY = 'sb_publishable_9_rTuVsidpeLgh7xGo1Azg_KaeyGWs5';
 async function rpc(fn, args = {}) {
+  const pre = window.__pre && window.__pre[fn];
+  if (pre && !Object.keys(args).length) {
+    delete window.__pre[fn];
+    try { const o = await pre; if (o.ok) return o.t ? JSON.parse(o.t) : null; } catch (e) {}
+  }
   let r;
   try {
     r = await fetch(`${SB_URL}/rest/v1/rpc/${fn}`, { method: 'POST', headers: { apikey: SB_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(args) });
@@ -1203,7 +1225,7 @@ async function iniciarVitrine() {
   try {
     V.data = await rpc('mq_vitrine');
   } catch (e) {
-    $('#loader').classList.add('out');
+    const L0 = $('#loader'); L0 && L0.classList.add('out');
     toast('Não foi possível carregar o site agora. Tente atualizar a página.', 'err', 8000); return;
   }
   const c = V.data.config;
@@ -1220,7 +1242,7 @@ async function iniciarVitrine() {
   $('#ano').textContent = new Date().getFullYear();
   pintarStrip(); pintarNums(); pintarServicos(); pintarSemana(); pintarCursos(); pintarDepoimentos(); pintarContato(); pintarFaq(); pintarPortfolio();
   bkIniciar();
-  setTimeout(() => { $('#loader').classList.add('out'); document.body.classList.add('pronto'); revelar(); window.__abrirEnv && window.__abrirEnv(); }, Math.max(200, (window.__ldFim || 0) - performance.now()));
+  setTimeout(() => { const L = $('#loader'); if (L) { L.classList.add('out'); setTimeout(() => L.remove(), 1200); } document.body.classList.add('pronto'); revelar(); window.__abrirEnv && window.__abrirEnv(); }, Math.max(200, (window.__ldFim || 0) - performance.now()));
   proximoHorario();
   rpc('mq_vitrine_fotos').then(f => { V.fotos = f; pintarFotos(); }).catch(() => {});
 }
@@ -1241,7 +1263,13 @@ function splitWords(el) {
   });
   walk(el); el.classList.add('splitw');
 }
+function pausarForaDaTela() {
+  if (!('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('pausa', !e.isIntersecting)), { rootMargin: '80px' });
+  $$('.hero,.strips,#horarios .mtrack,#horarios').forEach(e => io.observe(e));
+}
 function efeitosVitrine() {
+  pausarForaDaTela();
   const fino = matchMedia('(hover:hover) and (pointer:fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches;
   let lastY = scrollY, vel = 0;
   const pars = $$('[data-par]');
@@ -1393,11 +1421,11 @@ function pintarFotos() {
   const f = V.fotos; if (!f) return;
   if (f.hero) $('#heroArch').innerHTML = `<img src="${f.hero}" alt="Maquiagem">`;
   if (f.sobre) { $('#aboutPh').innerHTML = `<img src="${f.sobre}" alt="Maquiadora">`; $('#aboutPh').closest('.wrap').classList.remove('nofoto'); }
-  $$('[data-cfoto]').forEach(e => { const s = f.cursos[e.dataset.cfoto]; if (s) { const hb = $('.hb', e); e.innerHTML = `<img src="${s}" alt="" loading="lazy">`; if (hb) e.appendChild(hb); } });
+  $$('[data-cfoto]').forEach(e => { const s = f.cursos[e.dataset.cfoto]; if (s) { const hb = $('.hb', e); e.innerHTML = `<img src="${s}" alt="" loading="lazy" decoding="async">`; if (hb) e.appendChild(hb); } });
   $$('[data-dfoto]').forEach(e => { const s = f.depoimentos[e.dataset.dfoto]; if (s) e.innerHTML = `<img src="${s}" alt="">`; });
   const p = f.portfolio;
   if (p.length) {
-    const tile = (x, i) => `<div class="ptile" data-lb="${i}"><img src="${x.foto}" alt="${esc(x.legenda || 'Trabalho')}" loading="lazy">${x.legenda || x.categoria ? `<div class="cap"><b>${esc(x.legenda || '')}</b>${esc(x.categoria || '')}</div>` : ''}</div>`;
+    const tile = (x, i) => `<div class="ptile" data-lb="${i}"><img src="${x.foto}" alt="${esc(x.legenda || 'Trabalho')}" loading="lazy" decoding="async">${x.legenda || x.categoria ? `<div class="cap"><b>${esc(x.legenda || '')}</b>${esc(x.categoria || '')}</div>` : ''}</div>`;
     let a = p.map(tile).join(''), b = '';
     if (p.length >= 8) { const h = Math.ceil(p.length / 2); a = p.slice(0, h).map((x, i) => tile(x, i)).join(''); b = p.slice(h).map((x, i) => tile(x, i + h)).join(''); }
     const rep = s => { let r = s; while (r.length && (r.match(/ptile/g) || []).length < 8) r += s; return r + r; };
@@ -1630,7 +1658,7 @@ async function arpc(fn, args = {}) {
 }
 async function iniciarAdmin() {
   document.body.classList.add('adm'); document.title = 'Gerência';
-  $('#loader').classList.add('out');
+  const L1 = $('#loader'); L1 && L1.classList.add('out');
   if (!A.token) return telaLogin();
   try { await carregarPainel(); montarShell(); irPara(A.view); iniciarPoll(); }
   catch (e) { telaLogin(); }
@@ -2054,7 +2082,7 @@ function pintarConteudo() {
     box.innerHTML = `<div class="panel"><h2>Fotos de clientes <span class="cnt">${c.portfolio.length} foto(s)</span></h2><p class="ph2">Aparecem rolando no site. Envie várias de uma vez: elas são otimizadas sozinhas. No computador, arraste as fotos para mudar a ordem.</p>
       <label class="drop" id="pDrop"><input type="file" accept="image/*" multiple id="pFile" hidden><span class="dic">📷</span><b>Toque para escolher fotos</b><span>ou arraste do computador para cá</span></label>
       <div class="upbar hide" id="pBar"><i></i></div>
-      <div class="pgrid" id="pGrid" style="margin-top:20px">${c.portfolio.map((p, i) => `<div class="pit ${p.ativo ? '' : 'off'}" draggable="true" data-id="${p.id}" style="animation-delay:${Math.min(i, 12) * .04}s"><img src="${p.foto}" alt="" loading="lazy" draggable="false">${p.ativo ? '' : '<span class="oc">oculta</span>'}
+      <div class="pgrid" id="pGrid" style="margin-top:20px">${c.portfolio.map((p, i) => `<div class="pit ${p.ativo ? '' : 'off'}" draggable="true" data-id="${p.id}" style="animation-delay:${Math.min(i, 12) * .04}s"><img src="${p.foto}" alt="" loading="lazy" decoding="async" draggable="false">${p.ativo ? '' : '<span class="oc">oculta</span>'}
         <div class="ov"><div>${esc(p.legenda || '')}${p.categoria ? `<br><small>${esc(p.categoria)}</small>` : ''}</div><div class="ac"><button data-pe="${p.id}" title="Legenda e visibilidade">✎</button><button data-pu="${i}" title="Mover para antes">←</button><button data-pd="${i}" title="Mover para depois">→</button><button data-px="${p.id}" title="Apagar">🗑</button></div></div></div>`).join('')}</div>
       ${c.portfolio.length ? '' : '<div class="empty" id="pEmpty"><span class="e">✦</span><br>Nenhuma foto ainda. Enquanto isso, o site mostra cartões elegantes de "fotos em breve".</div>'}</div>`;
     let arrastando = null;
